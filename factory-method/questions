@@ -1,0 +1,55 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com a aplicação
+      do Factory Method?
+
+      O NotificationService estava acoplado à classe concreta EmailNotification:
+      ele mesmo executava "new EmailNotification()". Para suportar SMS e Push
+      seria preciso encher a classe de if/else e alterá-la a cada novo tipo,
+      violando o princípio Aberto/Fechado. O Factory Method retirou dessa
+      lógica a responsabilidade de instanciar, deixando-a depender apenas da
+      interface Notification.
+
+   b) Qual é a principal vantagem da solução quando novos tipos de notificações
+      precisam ser adicionados?
+
+      O sistema fica aberto para extensão e fechado para modificação. Para
+      incluir o WhatsApp bastou criar duas classes novas
+      (WhatsappNotification e WhatsappNotificationSubClass); nenhuma linha de
+      NotificationFactory, das notificações já existentes ou da regra de envio
+      precisou ser alterada — apenas o ponto de configuração (o Main) escolhe
+      qual fábrica usar.
+
+   c) Onde está o Factory Method na sua implementação?
+
+      É o método abstrato "createNotification()" declarado em
+      NotificationFactory. Ele é o método-fábrica, e cada subclasse
+      (EmailNotificationSubClass, SmsNotificationSubClass,
+      PushNotificationSubClass, WhatsappNotificationSubClass) o sobrescreve
+      decidindo qual produto concreto instanciar. O método
+      "sendNotification(String)" é a operação que consome esse método-fábrica
+      sem saber qual objeto virá.
+
+   d) Qual é o papel do polimorfismo nessa solução?
+
+      Ele atua em dois níveis. No produto: sendNotification() chama
+      notification.send(message) sobre o tipo Notification, e em tempo de
+      execução roda a implementação de e-mail, SMS, push ou WhatsApp. No
+      criador: o Main percorre um array de NotificationFactory e cada chamada
+      a createNotification() resolve para a subclasse correspondente. É o
+      polimorfismo que permite trocar o comportamento sem condicionais.
+
+   e) Apenas criar uma interface Notification e suas diferentes implementações
+      seria suficiente para afirmar que o sistema utiliza o padrão Factory
+      Method? Justifique.
+
+      Não. Uma interface com várias implementações é apenas herança/
+      polimorfismo, e resolve somente o acoplamento no *uso* do objeto. O
+      cliente continuaria escrevendo "new SmsNotification()" ou um if/else
+      para escolher a implementação, ou seja, permaneceria acoplado à criação.
+      O padrão só existe quando há um método de criação declarado na
+      superclasse (ou interface) que as subclasses sobrescrevem para decidir a
+      instância — foi isso que NotificationFactory.createNotification()
+      acrescentou.
+--------------------------------------------------------------------------- */
