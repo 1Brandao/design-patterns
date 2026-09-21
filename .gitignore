@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Compiled output
+out/
+bin/
+*.class
+
+# Pacotes gerados para entrega
+entregas/
