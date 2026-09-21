@@ -1,0 +1,54 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Decorator?
+
+      A explosão de subclasses. Cada combinação de bebida e adicionais exigia
+      uma classe própria (CoffeeWithMilk, CoffeeWithMilkAndChocolate,
+      TeaWithMilk...), e o preço e a descrição ficavam recalculados à mão e
+      duplicados em cada uma delas. Com dois tipos de bebida e três adicionais
+      o número de combinações cresce de forma combinatória. O Decorator trocou
+      herança por composição: cada adicional é uma classe só, e a combinação
+      acontece em tempo de execução.
+
+   b) Quais classes representam o componente, os componentes concretos, o
+      decorador base e os decoradores concretos na sua implementação?
+
+      Componente: a interface Beverage. Componentes concretos: Coffee (R$ 5,00)
+      e Tea (R$ 4,00). Decorador base: a classe abstrata BeverageDecorator, que
+      implementa Beverage e guarda a referência para a bebida envolvida.
+      Decoradores concretos: MilkDecorator (R$ 1,50), ChocolateDecorator
+      (R$ 2,00), WhippedCreamDecorator (R$ 2,50) e CaramelDecorator (R$ 1,00).
+
+   c) Por que o decorador deve implementar a mesma abstração do objeto que ele
+      envolve?
+
+      Porque é isso que o torna substituível pelo objeto original. Como
+      BeverageDecorator também é um Beverage, o resultado de um decorador pode
+      ser passado a outro decorador, permitindo empilhá-los indefinidamente, e
+      o cliente (o método print) continua recebendo apenas Beverage, sem saber
+      se está diante de um café puro ou de quatro camadas de adicionais. Se o
+      decorador tivesse outra interface, nada disso se encaixaria.
+
+   d) Como a composição e a delegação permitem combinar adicionais sem criar
+      uma subclasse para cada combinação?
+
+      Cada decorador guarda uma referência para a bebida que envolve
+      (composição) e, ao responder getCost() e getDescription(), primeiro
+      pergunta ao objeto interno e depois acrescenta a sua parte (delegação).
+      A combinação vira o encadeamento dos objetos —
+      "new ChocolateDecorator(new MilkDecorator(new Coffee()))" — e não uma
+      nova classe. Por isso também é possível repetir o mesmo adicional: são
+      dois objetos distintos na cadeia, cada um somando seu custo.
+
+   e) Como a inclusão de um novo adicional se relaciona com o princípio
+      Open/Closed (OCP)?
+
+      É um exemplo direto dele. Para oferecer caramelo bastou criar
+      CaramelDecorator; Beverage, Coffee, Tea, BeverageDecorator e os demais
+      decoradores continuaram exatamente como estavam. O sistema ficou aberto
+      para extensão (novos comportamentos entram como novas classes) e fechado
+      para modificação (nenhum código testado precisou ser alterado) — o
+      oposto do modelo inicial, em que cada novidade obrigava a mexer na
+      hierarquia existente.
+--------------------------------------------------------------------------- */
