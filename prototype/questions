@@ -1,0 +1,47 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente na criação dos personagens foi resolvido com o
+      Prototype?
+
+      O código inicial criava cada personagem repetindo todos os atributos no
+      construtor ("new Character(nome, tipo, 100, 30, 20, "Sword")"). Personagens
+      do mesmo tipo compartilham quase tudo, então os valores padrão ficavam
+      duplicados em cada ponto de criação. Qualquer ajuste no Warrior exigiria
+      caçar e alterar todas essas chamadas. Com o Prototype, os valores padrão
+      vivem em um único modelo e cada novo personagem nasce de uma cópia dele.
+
+   b) Qual é a principal vantagem de criar objetos a partir de protótipos?
+
+      Criar um objeto já configurado sem depender do construtor nem conhecer a
+      classe concreta. O cliente pede uma cópia de um modelo existente e altera
+      apenas o que é específico, o que elimina a duplicação da configuração e
+      permite registrar novos modelos em tempo de execução, sem recompilar
+      quem os utiliza.
+
+   c) Onde está o Prototype na sua implementação?
+
+      Na interface Prototype<T>, com o método "clonePrototype()", implementado
+      por Character. A cópia é feita pelo construtor privado Character(Character),
+      e o CharacterRegistry guarda os modelos de Warrior, Mage e Archer,
+      devolvendo sempre um clone em "create(String)".
+
+   d) Qual a diferença entre cópia rasa e cópia profunda?
+
+      Na cópia rasa apenas as referências são copiadas: o clone e o protótipo
+      passam a apontar para os mesmos objetos mutáveis, então alterar a lista de
+      habilidades de um afetaria o outro. Na cópia profunda os objetos internos
+      também são recriados. Por isso o construtor de cópia faz
+      "new ArrayList<>(prototype.skills)" — sem isso, o "withSkill("Berserk")"
+      do Main contaminaria o modelo Warrior e todos os clones seguintes.
+
+   e) Em quais situações o padrão Prototype é mais indicado do que criar objetos
+      diretamente com new?
+
+      Quando a montagem do objeto é cara ou trabalhosa (muitos atributos,
+      leitura de arquivo, consulta a banco), quando existem muitas variações
+      de um mesmo objeto que diferem em poucos campos, quando o conjunto de
+      tipos só é conhecido em tempo de execução, ou quando o cliente não deve
+      depender da classe concreta. Se o objeto é simples e tem poucos campos,
+      o "new" direto continua sendo mais claro.
+--------------------------------------------------------------------------- */
