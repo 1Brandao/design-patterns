@@ -1,0 +1,50 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Singleton?
+
+      Cada classe criava a sua própria AppConfig com "new AppConfig()". Como as
+      configurações são um recurso compartilhado, partes diferentes do sistema
+      podiam acabar com instâncias distintas e, portanto, com estados
+      divergentes — além de espalharem pelo código a responsabilidade de
+      construir o objeto. O Singleton centraliza a criação e garante que
+      UserService e ReportService leiam exatamente a mesma configuração.
+
+   b) Por que o construtor da classe Singleton deve ser privado?
+
+      Porque é o que impede qualquer outra classe de escapar do controle:
+      enquanto o construtor for público, "new AppConfig()" continua disponível
+      e a unicidade vira apenas uma convenção. Tornando-o privado, o único
+      caminho possível para obter o objeto passa a ser o método estático da
+      própria classe.
+
+   c) Onde está o ponto global de acesso na sua implementação?
+
+      No método estático "AppConfig.getInstance()". Ele guarda a referência no
+      campo estático "instance", cria o objeto na primeira chamada
+      (inicialização preguiçosa) e devolve sempre a mesma referência nas
+      seguintes.
+
+   d) Quais cuidados devem ser considerados ao utilizar Singleton em sistemas
+      com múltiplas threads?
+
+      Sem sincronização, duas threads podem passar pelo "if (instance == null)"
+      ao mesmo tempo e criar dois objetos. Também é preciso evitar que uma
+      thread enxergue uma instância ainda não totalmente construída, efeito
+      possível por causa do reordenamento de instruções. A solução usada aqui é
+      o campo "volatile" com double-checked locking: o bloco "synchronized" só
+      é disputado na primeira criação e o "volatile" garante a publicação segura.
+      Um Singleton com estado mutável ainda exigiria proteger esse estado —
+      aqui os campos são "final".
+
+   e) Quais são as desvantagens ou riscos de utilizar Singleton em excesso?
+
+      Ele funciona como estado global: cria acoplamento invisível, já que as
+      classes dependem de AppConfig sem declarar isso no construtor, e dificulta
+      testes, porque não dá para injetar uma configuração falsa e o estado
+      vaza de um teste para o outro. Também tende a violar a responsabilidade
+      única (a classe cuida do próprio ciclo de vida além da sua função) e a
+      esconder problemas de concorrência. Na maior parte dos casos, injeção de
+      dependência com uma única instância gerenciada pelo contêiner resolve o
+      mesmo problema sem esses efeitos.
+--------------------------------------------------------------------------- */
