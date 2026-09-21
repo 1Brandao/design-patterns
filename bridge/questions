@@ -1,0 +1,47 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Bridge?
+
+      A explosão combinatória de classes. O sistema variava em dois eixos
+      independentes — o tipo da notificação e o canal de envio — mas as duas
+      variações estavam fundidas em classes concretas
+      (EmailAlertNotification, SmsAlertNotification, EmailReminderNotification,
+      SmsReminderNotification). Cada novo tipo ou canal multiplicava as
+      classes e duplicava a lógica de envio. O Bridge separou os dois eixos:
+      3 tipos + 3 canais são 6 classes, e não 9.
+
+   b) O que representa a abstração na sua implementação?
+
+      A classe abstrata Notification, com suas refinamentos AlertNotification,
+      ReminderNotification e WarningNotification. Ela representa o tipo da
+      notificação: define o que será comunicado e como a mensagem é composta,
+      sem saber por onde ela sai.
+
+   c) O que representa a implementação na sua solução?
+
+      A interface NotificationSender e suas implementações EmailSender,
+      SmsSender e WhatsAppSender. Elas representam o canal de envio — o "como"
+      a mensagem trafega. A ponte é o campo "sender" mantido por Notification:
+      a abstração delega o envio ao implementador recebido no construtor.
+
+   d) Qual é a diferença entre utilizar Bridge e criar uma classe para cada
+      combinação possível?
+
+      Com uma classe por combinação o crescimento é multiplicativo (tipos x
+      canais) e a lógica de envio se repete em cada uma delas; as combinações
+      também ficam fixas em tempo de compilação. Com o Bridge o crescimento é
+      aditivo (tipos + canais), cada comportamento existe em um único lugar e
+      a combinação é feita em tempo de execução, apenas passando outro
+      NotificationSender ao construtor.
+
+   e) Em quais situações o padrão Bridge é mais indicado?
+
+      Quando existem dois (ou mais) eixos de variação realmente independentes e
+      ambos tendem a crescer; quando abstração e implementação precisam evoluir
+      ou ser publicadas separadamente; quando a implementação deve poder ser
+      trocada em tempo de execução; e quando a alternativa por herança já está
+      produzindo uma hierarquia larga só para cobrir combinações. Se houver
+      apenas um eixo de variação, o Bridge só acrescenta indireção — herança
+      simples ou Strategy bastam.
+--------------------------------------------------------------------------- */
