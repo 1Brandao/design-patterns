@@ -1,0 +1,50 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Composite?
+
+      A pasta só aceitava arquivos e o cliente precisava usar operações
+      diferentes para cada tipo — "getSize()" no arquivo e "getTotalSize()" na
+      pasta. Quando uma pasta passou a conter outras pastas, a estrutura antiga
+      exigiria listas separadas e condicionais para tratar cada caso. O
+      Composite unificou os dois sob FileSystemComponent: o cliente percorre a
+      árvore inteira chamando sempre a mesma operação.
+
+   b) Quais elementos representam o componente, a folha e o composto na sua
+      implementação?
+
+      Componente: a interface FileSystemComponent, com getName(), getSize() e
+      display(String). Folha: DocumentFile, que tem tamanho próprio e não
+      possui filhos. Composto: Folder, que guarda uma lista de
+      FileSystemComponent e permite adicionar e remover elementos.
+
+   c) Como o polimorfismo permite tratar arquivos e pastas de maneira uniforme?
+
+      O laço de Folder.getSize() itera sobre FileSystemComponent e chama
+      child.getSize() sem saber o que recebeu. Em tempo de execução, a chamada
+      resolve para a implementação da folha (devolve o tamanho gravado) ou para
+      a do composto (soma os filhos). É isso que elimina qualquer "instanceof"
+      ou condicional por tipo — o Main também guarda arquivo, pasta vazia e
+      árvore no mesmo array.
+
+   d) Qual é o papel da recursão no cálculo do tamanho das pastas?
+
+      A recursão é o que faz a operação descer por todos os níveis. Folder
+      delega para cada filho, e quando o filho é outra pasta ele repete o mesmo
+      processo até chegar às folhas, que são o caso base e devolvem o valor
+      direto. A pasta vazia também é um caso base natural: o laço não executa e
+      o total permanece zero.
+
+   e) Quais são as vantagens e limitações de manter as operações de adicionar e
+      remover filhos apenas na classe Folder?
+
+      A vantagem é a segurança de tipos: como DocumentFile não expõe add() nem
+      remove(), é impossível tentar colocar um filho dentro de um arquivo, e
+      não existe método que lance exceção sem motivo. A limitação é que a
+      transparência é parcial — o cliente que precisa montar a árvore tem de
+      conhecer o tipo Folder, e não apenas FileSystemComponent. A alternativa
+      (declarar add/remove no componente) deixaria a interface totalmente
+      uniforme, mas obrigaria a folha a implementar operações sem sentido. Para
+      este caso a segurança compensa, porque só a montagem precisa do tipo
+      concreto; a leitura continua uniforme.
+--------------------------------------------------------------------------- */
