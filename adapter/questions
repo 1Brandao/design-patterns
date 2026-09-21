@@ -1,0 +1,46 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente na integração com o serviço externo foi resolvido
+      com o Adapter?
+
+      A incompatibilidade entre as interfaces. O sistema chama "pay(double)",
+      enquanto o ExternalPaymentGateway exige "makePayment(String, double)".
+      Sem o Adapter, cada classe cliente teria de conhecer a assinatura do
+      serviço externo e decidir qual moeda enviar, espalhando um detalhe de
+      integração por todo o código e acoplando o sistema a um fornecedor.
+
+   b) Qual classe representa o Adapter na sua implementação?
+
+      ExternalPaymentGatewayAdapter. Ela implementa PaymentProcessor (a
+      interface esperada), guarda uma referência para ExternalPaymentGateway
+      (o adaptado) e, em "pay(double amount)", delega para
+      "gateway.makePayment(currency, amount)".
+
+   c) Qual é a diferença entre a interface esperada pelo sistema e a interface
+      fornecida pelo serviço externo?
+
+      A esperada recebe apenas o valor: "void pay(double amount)". A fornecida
+      exige também a moeda e usa outro nome: "void makePayment(String currency,
+      double value)". Ou seja, diferem no nome do método e na quantidade de
+      parâmetros — o adaptador precisa completar a informação que falta.
+
+   d) Por que não é recomendado alterar diretamente a classe
+      ExternalPaymentGateway?
+
+      Porque ela pertence a outra equipe e não está sob nosso controle: mexer
+      nela quebraria os outros consumidores e qualquer alteração seria perdida
+      na próxima atualização da biblioteca. Frequentemente nem há acesso ao
+      código-fonte. O Adapter resolve a incompatibilidade do nosso lado, sem
+      tocar em código de terceiros.
+
+   e) Em quais situações o padrão Adapter é mais indicado do que modificar
+      todas as classes clientes?
+
+      Quando a classe incompatível não pode ser alterada (biblioteca externa,
+      sistema legado, código de outra equipe), quando vários clientes usariam a
+      mesma tradução, quando existe a chance de trocar o fornecedor mais tarde
+      ou quando se quer manter os detalhes da integração isolados em um único
+      ponto. Alterar todos os clientes só compensa quando a interface antiga
+      realmente deixou de existir e não há mais nada dependendo dela.
+--------------------------------------------------------------------------- */
