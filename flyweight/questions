@@ -1,0 +1,21 @@
+Questões para reflexão — Atividade 013 (Flyweight)
+
+ a) A versão inicial copiava a textura para cada árvore, mesmo quando várias
+    árvores tinham a mesma aparência. Agora só o tipo compartilhado mantém
+    a textura; cada árvore guarda uma referência ao tipo e seus próprios dados.
+
+ b) O estado intrínseco é nome, cor e textura, mantidos em TreeType. O estado
+    extrínseco é a posição (x, y) e a escala, mantidas em Tree e passadas ao
+    tipo na hora de desenhar.
+
+ c) TreeTypeFactory consulta o cache com uma chave de três campos: nome, cor
+    e identificador da textura. Chaves com os mesmos valores devolvem a mesma
+    instância. Campos separados evitam ambiguidades entre combinações distintas.
+
+ d) Se a textura fosse alterada, todas as árvores daquele tipo mudariam de
+    aparência ao mesmo tempo. TreeType copia o array recebido no construtor
+    e não expõe essa cópia, impedindo alterações pelo código cliente.
+
+ e) O ganho é maior quando há muitos objetos, poucos tipos distintos e dados
+    compartilhados grandes, como as texturas. Em troca, é preciso separar os
+    estados, administrar o cache e passar os dados individuais na renderização.

@@ -1,0 +1,40 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão — Atividade 020
+
+   a) Qual problema existente no código inicial foi resolvido com o Command?
+
+      O controle decidia qual método de Light chamar comparando textos. Agora
+      o nome do botão só identifica um Command no mapa; o objeto encontrado
+      é que conhece a operação e seu destinatário. Isso permite trocar o
+      comportamento de um botão sem alterar a lógica do controle.
+
+   b) Quais classes representam o invocador, o receptor, os comandos concretos
+      e o cliente na sua implementação?
+
+      RemoteControl é o invocador, Light é o receptor e Main é o cliente que
+      monta as associações. TurnOnLightCommand e TurnOffLightCommand são os
+      comandos concretos. Command define o contrato; LightCommand compartilha
+      a captura e a restauração do estado da lâmpada.
+
+   c) Como seria possível acrescentar um comando para outro dispositivo sem
+      modificar RemoteControl?
+
+      Basta criar um Command que receba o novo dispositivo, delegue a operação
+      em execute() e saiba revertê-la em undo(). O cliente instancia esse
+      comando e o associa a um botão com setCommand().
+
+   d) Por que desfazer pode exigir armazenar o estado anterior, em vez de
+      apenas executar a operação oposta?
+
+      A operação oposta não distingue uma ação que mudou o estado de outra que
+      não mudou nada. Se a lâmpada já estava ligada, desfazer outro comando de
+      ligar deve mantê-la ligada, e não desligá-la.
+
+   e) Como representar uma solicitação difere de representar um algoritmo
+      intercambiável em Strategy?
+
+      Command representa um pedido específico: uma ação sobre um receptor,
+      com os dados necessários para executá-la e, aqui, desfazê-la. Strategy
+      representa uma maneira de realizar uma tarefa; o contexto escolhe entre
+      algoritmos que cumprem o mesmo objetivo.
+--------------------------------------------------------------------------- */

@@ -1,0 +1,36 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão — Atividade 022
+
+   a) Qual problema existente no código inicial foi resolvido com o Iterator?
+
+      Antes, o cliente recebia a lista mutável da playlist e precisava cuidar
+      dos índices. Agora ele usa apenas hasNext() e next(); a estrutura da
+      lista e a direção do percurso ficam escondidas.
+
+   b) Quem representa o agregado, o agregado concreto, o iterador e os
+      iteradores concretos na implementação?
+
+      SongCollection é a abstração do agregado e Playlist é o agregado
+      concreto. SongIterator define o contrato de percurso; PlaylistIterator
+      e ReversePlaylistIterator são as implementações privadas em Playlist.
+
+   c) Por que a posição deve pertencer a cada iterador, e não à playlist?
+
+      Duas iterações sobre o mesmo conjunto podem estar em pontos distintos.
+      Uma posição compartilhada faria o avanço de um percurso afetar o outro,
+      inclusive quando um deles estiver percorrendo a playlist ao contrário.
+
+   d) Por que hasNext() não deve avançar? Por que definir next() no fim?
+
+      Consultar a disponibilidade duas vezes não deve pular faixas. Quando
+      não há próxima faixa, next() lança NoSuchElementException, deixando
+      claro que a chamada não retornou um elemento válido.
+
+   e) Como seria possível permitir mudanças durante o percurso?
+
+      Seria preciso definir se o iterador vê inclusões e remoções e o que
+      acontece com sua posição. Uma cópia percorreria a ordem do momento da
+      criação, sem ver mudanças posteriores, ao custo de memória adicional.
+      Outra opção seria versionar a coleção e invalidar o iterador ao detectar
+      alteração estrutural, sem manter uma cópia das faixas.
+--------------------------------------------------------------------------- */

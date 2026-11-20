@@ -1,0 +1,41 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão — Atividade 024
+
+   a) Qual problema existente no código inicial foi resolvido com o Visitor?
+
+      O relatório testava o tipo de produto e fazia conversões. Cada nova
+      operação tenderia a repetir essas verificações. Agora a escolha da
+      operação é feita por accept() e pela sobrecarga de visit(), e as regras
+      de relatório, promoção e soma ficam em visitantes separados.
+
+   b) Quem representa os elementos, o visitante e suas implementações?
+
+      Product é a abstração do elemento; Book e Electronics são os elementos
+      concretos. ProductVisitor é o contrato do visitante. ProductReportVisitor,
+      PromotionalPriceVisitor e TotalPriceVisitor implementam as operações.
+
+   c) Como accept() e visit(this) selecionam o comportamento adequado? Por
+      que chamar visitor.visit(product) no cliente não seria equivalente?
+
+      Em tempo de execução, accept() é chamado na classe concreta do produto.
+      Dentro dela, o tipo estático de this permite ao compilador selecionar a
+      sobrecarga visit(Book) ou visit(Electronics); em execução, vale a
+      implementação do visitante recebido. No cliente, o tipo estático é
+      Product e nenhuma das duas sobrecargas recebe Product.
+
+   d) O que mudaria para incluir Furniture? E para adicionar uma operação?
+
+      Furniture implementaria Product e chamaria visitor.visit(this).
+      ProductVisitor precisaria de visit(Furniture), e todos os visitantes
+      existentes precisariam decidir como tratar móveis. Uma nova operação
+      sobre os tipos atuais só exige outro visitante e sua ligação ao cliente.
+
+   e) Por que reutilizar um visitante com acumulador pode alterar o resultado?
+      Como evitar exposição desnecessária do estado dos produtos?
+
+      A segunda visita com o mesmo TotalPriceVisitor começa pelo total anterior;
+      use uma instância nova para cada cálculo independente. Os produtos
+      expõem apenas as consultas de que os visitantes precisam, sem liberar
+      acesso a campos mutáveis internos. Aqui os dados são String e int, e os
+      visitantes não alteram os produtos.
+--------------------------------------------------------------------------- */

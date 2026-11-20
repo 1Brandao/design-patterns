@@ -1,0 +1,22 @@
+Questões para reflexão — Atividade 014 (Proxy)
+
+ a) A galeria carregava todas as imagens ao ser montada, inclusive as que
+    não seriam vistas. O Proxy Virtual adia a criação de cada imagem real
+    até a primeira chamada de display e depois reutiliza a mesma instância.
+
+ b) Image é o sujeito, HighResolutionImage é o sujeito real e ImageProxy
+    é o proxy virtual. ProtectedImageProxy é o proxy que controla a permissão.
+
+ c) Com a mesma abstração, o cliente chama display sem verificar o tipo do
+    objeto. Isso permite tanto substituir a imagem real por um proxy quanto
+    envolver o proxy virtual no proxy de proteção.
+
+ d) A montagem registra apenas os nomes dos arquivos, sem carregar imagens.
+    A primeira exibição ainda paga o custo do carregamento, que num sistema
+    real poderia incluir leitura do disco e alocação de memória. As próximas
+    exibições do mesmo proxy reutilizam a imagem já carregada.
+
+ e) O Proxy controla o acesso ao objeto ou o momento em que ele é criado.
+    O Decorator acrescenta responsabilidades ao objeto, como aplicar um efeito
+    visual à imagem. Usar a mesma interface é uma semelhança de estrutura,
+    não de finalidade.

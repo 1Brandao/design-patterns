@@ -1,0 +1,18 @@
+Questões para reflexão — Atividade 012 (Facade)
+
+ a) O código cliente tinha de conhecer todos os equipamentos e repetir a
+    sequência de preparação e encerramento. A fachada passou a definir essa
+    sequência em um único lugar, reduzindo a duplicação e o risco de pular etapas.
+
+ b) HomeTheaterFacade é a fachada. Projector, SoundSystem, StreamingPlayer e
+    RoomLights são os subsistemas, assim como ProjectionScreen no desafio adicional.
+
+ c) Depois da montagem, o cliente só chama watchMovie e endMovie. A inclusão
+    da tela mudou a montagem e a coordenação, mas não as operações do cliente.
+
+ d) Coordenar é decidir quais operações chamar e em que ordem. Por exemplo, a
+    fachada pede à tela que desça antes de ligar o projetor; a própria tela é
+    responsável por executar lower. A fachada não implementa o motor da tela.
+
+ e) Não. Os subsistemas continuam acessíveis para usos fora do fluxo padrão,
+    como calibrar o projetor ou ajustar apenas o som durante a manutenção.

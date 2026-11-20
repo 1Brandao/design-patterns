@@ -1,0 +1,38 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Template Method?
+
+      Cada relatório repetia a sequência de geração, incluindo a leitura dos
+      mesmos produtos e a mensagem de conclusão. Agora o fluxo fica em um só
+      lugar: ao mudar a sequência ou a leitura, não é preciso editar cada formato.
+
+   b) Qual método representa o Template Method e quais etapas são comuns,
+      abstratas ou hooks na sua implementação?
+
+      ReportGenerator.generate() é o Template Method. Ele chama readData()
+      (etapa comum), formatData() e saveReport() (etapas abstratas) e, por fim,
+      afterGeneration() (hook com mensagem de conclusão por padrão).
+
+   c) Por que o método generate() foi declarado como final?
+
+      Para impedir que uma subclasse substitua o fluxo, pule passos obrigatórios
+      ou mude a ordem. Ela só personaliza os pontos previstos pela classe base.
+
+   d) Qual é a diferença entre uma etapa abstrata obrigatória e um hook com
+      implementação padrão?
+
+      Uma subclasse concreta precisa fornecer as etapas abstratas de formatação
+      e salvamento. Já o hook funciona sem sobrescrita. TextReport o sobrescreve
+      para avisar que o relatório está disponível, preservando a mensagem padrão
+      com super.afterGeneration().
+
+   e) Como Template Method e Strategy diferem quanto ao uso de herança ou
+      composição e à possibilidade de variar o comportamento em tempo de execução?
+
+      Template Method usa herança: os passos especializados são definidos pela
+      subclasse do objeto. É possível escolher outro objeto de relatório em
+      tempo de execução, mas não trocar os passos da mesma instância. Strategy
+      usa composição: o contexto delega o comportamento a outro objeto e pode
+      trocar essa estratégia em tempo de execução se oferecer essa operação.
+--------------------------------------------------------------------------- */
