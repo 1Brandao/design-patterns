@@ -1,0 +1,44 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Observer?
+
+      A estação dependia de cada destinatário concreto e chamava um método
+      específico para cada um. Agora conhece só TemperatureObserver e aceita
+      novos interessados sem mudar suas regras de notificação.
+
+   b) Quais abstrações e classes representam o sujeito, o sujeito concreto,
+      o observador e os observadores concretos na sua implementação?
+
+      TemperatureSubject é a interface do sujeito e WeatherStation é o
+      sujeito concreto. TemperatureObserver é a interface dos observadores.
+      CurrentConditionsDisplay, TemperatureAlert e AverageTemperatureDisplay
+      são os observadores concretos.
+
+   c) Como o cadastro e a remoção de observadores alteram os destinatários
+      das notificações durante a execução?
+
+      addObserver() insere uma instância que ainda não está na lista, sem
+      enviar a leitura atual. Ela passa a receber as próximas notificações.
+      removeObserver() retira a instância da lista; se ela não estava inscrita,
+      nada muda. A comparação por identidade permite que duas instâncias
+      distintas se inscrevam mesmo se equals() as considerar iguais.
+
+   d) Como seria uma alternativa pull, em que o observador consulta o
+      estado do sujeito?
+
+      Em vez de enviar a temperatura no callback, a estação enviaria um aviso
+      de mudança com uma referência ao sujeito (ou o observador guardaria essa
+      referência). O observador consultaria getTemperature() no sujeito quando
+      precisasse do valor. No modelo push adotado, update() já recebe o valor.
+
+   e) Como um observador lento ou que lança uma exceção pode afetar os demais
+      em uma notificação síncrona? Que cuidados seriam necessários em um
+      sistema real?
+
+      Um observador lento atrasa os próximos e o retorno de setTemperature().
+      Aqui, uma exceção não tratada interrompe o envio aos demais. Em produção,
+      pode ser adequado isolar e registrar falhas por observador e usar filas
+      ou execução assíncrona, com políticas explícitas para preservar a ordem,
+      limitar a fila e lidar com atrasos.
+--------------------------------------------------------------------------- */

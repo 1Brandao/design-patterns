@@ -1,0 +1,40 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão — Atividade 023
+
+   a) Qual problema existente no código inicial foi resolvido com o Memento?
+
+      O cliente precisava guardar campos separados e restaurá-los na ordem
+      certa. Agora o editor captura e restaura texto e cursor juntos. Uma
+      mudança na representação do editor não obriga o histórico a aprender
+      a reconstruí-la.
+
+   b) Quem representa o originador, o memento e o cuidador do histórico?
+
+      TextEditor é o originador, TextEditor.EditorMemento é a captura e
+      EditorHistory é o cuidador que mantém as pilhas de desfazer e refazer.
+
+   c) Por que o histórico não deve consultar ou modificar a captura? Como
+      essa restrição foi representada em Java?
+
+      O histórico deve decidir quando guardar e restaurar versões, sem
+      depender da estrutura interna do editor nem poder corromper um estado
+      salvo. EditorMemento é uma classe aninhada public static final, com
+      construtor privado, campos privados e finais, e nenhum getter público.
+
+   d) Qual é o risco de copiar referências mutáveis? Qual o custo de manter
+      muitas capturas completas?
+
+      Se a captura e o editor compartilhassem um objeto mutável, mudar o
+      estado atual poderia mudar também uma versão antiga. Seria necessário
+      copiar a parte mutável ou usar valores imutáveis, como String neste
+      exercício. Muitas capturas retêm mais dados em memória; um histórico
+      limitado pode reduzir esse custo.
+
+   e) Como Memento e Command diferem ao desfazer uma alteração? Como podem
+      trabalhar juntos?
+
+      Memento registra um estado para restaurá-lo; Command representa uma ação
+      e define como revertê-la. Um comando de edição pode chamar save() antes
+      de executar a ação e, em undo(), passar a captura de volta a restore(),
+      sem conhecer seus campos.
+--------------------------------------------------------------------------- */

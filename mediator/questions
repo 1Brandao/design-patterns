@@ -1,0 +1,41 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o Mediator?
+
+      Cada usuário mantinha sua própria lista de contatos e fazia o envio
+      diretamente. Isso duplicava a configuração e permitia listas incompletas.
+      A sala agora mantém um único cadastro e encaminha as mensagens.
+
+   b) Quais abstrações e classes representam o mediador, o mediador concreto
+      e os colegas participantes na sua implementação?
+
+      ChatMediator é a interface do mediador; ChatRoom a implementa.
+      Instâncias de ChatUser são os colegas participantes: cada uma guarda
+      apenas seu nome e a referência à abstração do mediador.
+
+   c) Como a entrada de um novo participante muda em relação ao código inicial
+      e quais dependências deixam de existir entre os usuários?
+
+      Basta associar a nova instância à sala e registrá-la uma vez, como no
+      caso de Diego. Os demais não precisam alterar listas, guardar referências
+      ao novo usuário nem saber quem mais está inscrito.
+
+   d) Por que as regras de encaminhamento e de mensagens privadas devem ficar
+      no mediador? Qual é o risco de concentrar responsabilidades demais nele?
+
+      A sala possui o cadastro e pode aplicar as mesmas regras a todos os
+      envios: remetente inscrito, difusão sem eco e busca e validação do
+      destinatário privado. Se também acumular tarefas como persistência e
+      moderação, pode ficar difícil de testar e evoluir. Essas funções podem
+      ficar em colaboradores próprios sem voltar a acoplar os usuários.
+
+   e) Como Mediator e Observer diferem quanto à intenção e à organização das
+      interações, mesmo que ambos distribuam mensagens?
+
+      Mediator coordena a interação entre colegas: qualquer inscrito pode ser
+      remetente e a sala decide como encaminhar a mensagem. Observer propaga
+      mudanças de estado de um sujeito para assinantes, sem coordenar uma troca
+      de mensagens entre eles. A difusão é um efeito em comum, não a mesma
+      intenção.
+--------------------------------------------------------------------------- */

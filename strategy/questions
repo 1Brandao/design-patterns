@@ -1,0 +1,22 @@
+Questões para reflexão — Atividade 015 (Strategy)
+
+ a) A calculadora antiga misturava as fórmulas de frete com a seleção da
+    modalidade por texto. Agora cada fórmula fica em sua própria classe e
+    a calculadora não precisa conhecer os nomes nem os tipos concretos.
+
+ b) ShippingCalculator é o contexto e ShippingStrategy é a abstração comum.
+    StandardShipping, ExpressShipping, StorePickup e EconomyShipping são
+    as estratégias concretas.
+
+ c) A calculadora guarda uma referência à estratégia (composição) e chama
+    calculate nessa referência (delegação). setStrategy troca a referência
+    em tempo de execução, sem recriar a calculadora.
+
+ d) O cliente conhece a modalidade escolhida no pedido e fornece a estratégia
+    correspondente. Se a calculadora tomasse essa decisão, voltaria a depender
+    das modalidades concretas e teria de mudar sempre que surgisse outra opção.
+
+ e) A modalidade econômica entrou como uma nova implementação de
+    ShippingStrategy. Foi preciso selecioná-la no cliente, mas a calculadora
+    e as outras estratégias não mudaram. Isso exemplifica o princípio
+    aberto para extensão e fechado para modificação.

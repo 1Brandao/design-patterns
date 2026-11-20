@@ -1,0 +1,41 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão — Atividade 021
+
+   a) Qual problema existente no código inicial foi resolvido com o Chain of
+      Responsibility?
+
+      O serviço central conhecia todas as faixas e decidia sozinho quem devia
+      aprovar. Agora cada responsável só conhece seu limite e o próximo elo.
+      O fluxo pode mudar pela montagem da cadeia, sem editar as decisões dos
+      aprovadores que já existem.
+
+   b) Quem representa o tratador, os tratadores concretos, a solicitação e o
+      cliente na implementação?
+
+      ExpenseApprover é o tratador abstrato. TeamLeaderApprover,
+      ManagerApprover, DirectorApprover e PresidentApprover são os tratadores
+      concretos. ExpenseRequest representa a solicitação. Main monta o fluxo
+      e envia cada solicitação ao primeiro elo.
+
+   c) O que aconteceria se o diretor fosse colocado no início? Por que a ordem
+      dos responsáveis faz parte da configuração?
+
+      O diretor aprovaria toda despesa dentro de seu limite, inclusive as que
+      hoje ficam com o líder ou o gerente. O primeiro aprovador elegível
+      encerra o fluxo; ordenar do menor para o maior limite preserva a
+      prioridade dos níveis inferiores.
+
+   d) Como o sistema trata uma solicitação que ninguém consegue aprovar?
+
+      Se o último elo não puder aprovar, ele imprime um único aviso com a
+      descrição da despesa. Prever esse caso impede que a solicitação termine
+      em silêncio ou que o fluxo dê a impressão de que houve aprovação.
+
+   e) Como esse encaminhamento difere do Observer? Por que parar após a
+      primeira aprovação?
+
+      No Observer, um evento é comunicado aos observadores inscritos. Nesta
+      cadeia, o pedido só chega ao próximo elo se o atual não puder tratá-lo.
+      Parar na primeira aprovação evita decisões duplicadas para a mesma
+      despesa e respeita a prioridade definida pelo cliente.
+--------------------------------------------------------------------------- */

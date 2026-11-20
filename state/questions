@@ -1,0 +1,44 @@
+/* ---------------------------------------------------------------------------
+   Questões para reflexão
+
+   a) Qual problema existente no código inicial foi resolvido com o State?
+
+      Order repetia condicionais sobre o texto do status para decidir cada
+      ação. Agora delega as ações ao objeto que representa o estado atual,
+      sem precisar testar seu nome ou seu tipo concreto.
+
+   b) Quais classes representam o contexto, a abstração de estado e os estados
+      concretos na sua implementação?
+
+      Order é o contexto. OrderState é a interface dos estados. PendingState,
+      PaidState, ShippedState, CancelledState e DeliveredState são os estados
+      concretos.
+
+   c) Onde ficam as regras de transição e por que uma operação recusada deve
+      preservar o estado atual?
+
+      Cada estado sobrescreve as ações que permite e chama changeState() com
+      o próximo estado. As recusas padrão de OrderState só exibem uma mensagem.
+      Uma ação recusada não aconteceu e não pode avançar ou desfazer o ciclo
+      de vida do pedido.
+
+   d) Embora State e Strategy utilizem composição e delegação, como suas
+      intenções e a responsabilidade pela troca dos objetos se diferenciam
+      neste sistema?
+
+      State representa fases do ciclo de vida: o comportamento muda conforme
+      eventos válidos, e o estado atual decide a próxima transição. Strategy
+      encapsula maneiras alternativas de realizar uma tarefa; normalmente o
+      cliente ou o contexto escolhe a política a aplicar, não a estratégia
+      anterior como consequência de uma transição de negócio.
+
+   e) Quais partes da solução precisam mudar ao acrescentar um estado e ao
+      acrescentar uma operação comum a todos os estados?
+
+      Para um novo estado, implementa-se OrderState e ajustam-se os estados
+      que podem chegar a ele (ou a inicialização de Order, se ele for inicial).
+      Para uma nova ação como deliver(), acrescentam-se a operação ao contrato
+      e sua delegação em Order. Todos os estados precisam ter um comportamento
+      definido para ela; com uma recusa padrão, só os que permitem a ação
+      precisam sobrescrevê-la.
+--------------------------------------------------------------------------- */
